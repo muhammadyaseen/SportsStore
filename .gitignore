@@ -220,21 +220,17 @@ pip-log.txt
 *.png
 *.gif
 
-#VS Noise
+#VS Noise - Default file takes care of App_Data, line is redaundant
 /SportsStore.WebUI/App_Data/
 
 
 #jquery libs and packages
 /SportsStore.WebUI/Content/themes/
 /SportsStore.WebUI/Scripts/
+
+#Nuget Auto pckg restore is enabled
 /packages/
 
 #Test framework noise
-/SportsStore.UnitTests/bin/
-/SportsStore.UnitTests/obj/
-TestResults
 *.testsettings
 *.vsmdi
-
-*bin/
-*obj/
