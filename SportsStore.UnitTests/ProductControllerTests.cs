@@ -1,23 +1,23 @@
-﻿using SportsStore.WebUI.Controllers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
-using SportsStore.Domain.Abstract;
-using System.Web.Mvc;
+﻿using System;
 using System.Collections.Generic;
-using SportsStore.Domain.Entities;
-using Moq;
 using System.Linq;
+using System.Text;
+using NUnit.Framework;
+using SportsStore.Domain.Entities;
+using SportsStore.Domain.Abstract;
+using Moq;
+using SportsStore.WebUI.Controllers;
 using SportsStore.WebUI.Models;
+
 namespace SportsStore.UnitTests
 {
-    [TestClass()]
-    public class ProductControllerTest
+    [TestFixture]
+    class ProductControllerTests
     {
         private Mock<IProductRepository> mock;
         private ProductController controller;
 
-        [TestInitialize]
+        [SetUp]
         public void InitTestData()
         {
             this.mock = new Mock<IProductRepository>();
@@ -33,7 +33,7 @@ namespace SportsStore.UnitTests
         }
 
 
-        [TestMethod]
+        [TestCase]
         public void Can_Paginate()
         {
             // Arrange
@@ -42,10 +42,10 @@ namespace SportsStore.UnitTests
 
             // create a controller and make the page size 3 items
             controller.PageSize = 3;
-            
+
             // Action
             ProductListViewModel result = (ProductListViewModel)controller.List(null, 2).Model;
-           
+
             // Assert
             Product[] prodArray = result.Products.ToArray();
             Assert.IsTrue(prodArray.Length == 2);
@@ -53,13 +53,13 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(prodArray[1].Name, "P5");
         }
 
-        [TestMethod]
+        [TestCase]
         public void Sends_Proper_Data_To_View()
         {
             //Act
             controller.PageSize = 2;
 
-            ProductListViewModel vm = (ProductListViewModel) controller.List(null, 3).Model;
+            ProductListViewModel vm = (ProductListViewModel)controller.List(null, 3).Model;
 
             PagingInfo info = vm.PagingInfo;
 
@@ -70,7 +70,7 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(info.TotalPages, 3);
         }
 
-        [TestMethod]
+        [TestCase]
         public void Select_Correct_Category()
         {
 
@@ -78,7 +78,7 @@ namespace SportsStore.UnitTests
 
             ProductListViewModel vm = (ProductListViewModel)controller.List("Chess", 1).Model;
             Product[] result = vm.Products.ToArray();
-            
+
             PagingInfo info = vm.PagingInfo;
 
             //Assert
@@ -89,15 +89,15 @@ namespace SportsStore.UnitTests
 
         }
 
-        [TestMethod]
+        [TestCase]
         public void Distinct_And_Ordered_Nav_Links()
         {
             NavController controller = new NavController(mock.Object);
-            List<string> categories = ( (IEnumerable<string>) controller.Menu("Chess").Model).ToList();
+            List<string> categories = ((IEnumerable<string>)controller.Menu("Chess").Model).ToList();
 
 
             //Assert
-            Assert.AreEqual(categories.Count , 3);
+            Assert.AreEqual(categories.Count, 3);
 
             Assert.IsTrue(categories[0] == "Air");
 
@@ -105,10 +105,10 @@ namespace SportsStore.UnitTests
 
             Assert.IsTrue(categories[2] == "Watersport");
 
-            
+
         }
 
-        [TestMethod]
+        [TestCase]
         public void Indicates_Correct_Selected_Category()
         {
 
