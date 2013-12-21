@@ -105,6 +105,19 @@ namespace SportsStore.UnitTests
 
             Assert.IsTrue(categories[2] == "Watersport");
 
+            
+        }
+
+        [TestMethod]
+        public void Indicates_Correct_Selected_Category()
+        {
+
+            NavController controller = new NavController(mock.Object);
+
+            string selectedCategory = controller.Menu("Chess").ViewBag.SelectedCategory;
+
+            Assert.AreEqual("Chess", selectedCategory);
+
         }
     }
 }
