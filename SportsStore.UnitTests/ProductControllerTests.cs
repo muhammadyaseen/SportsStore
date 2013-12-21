@@ -119,5 +119,24 @@ namespace SportsStore.UnitTests
             Assert.AreEqual("Chess", selectedCategory);
 
         }
+
+
+        [TestCase]
+        public void Category_Specific_Product_Count()
+        {
+
+            controller.PageSize = 2;
+
+            int cat1 = ((ProductListViewModel)controller.List("Watersport").Model).PagingInfo.TotalItems;
+            int cat2 = ((ProductListViewModel)controller.List("Chess").Model).PagingInfo.TotalItems;
+            int cat3 = ((ProductListViewModel)controller.List("Air").Model).PagingInfo.TotalItems;
+            int all = ((ProductListViewModel)controller.List(null).Model).PagingInfo.TotalItems;
+
+            Assert.AreEqual(1, cat1);
+            Assert.AreEqual(2, cat2);
+            Assert.AreEqual(2, cat3);
+
+            Assert.AreEqual(5, all);
+        }
     }
 }
